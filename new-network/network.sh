@@ -262,7 +262,7 @@ function createConsortium() {
   # Note: For some unknown reason (at least for now) the block file can't be
   # named orderer.genesis.block or the orderer will fail to launch!
   set -x
-  configtxgen -profile TwoOrgsOrdererGenesis -channelID system-channel -outputBlock ./system-genesis-block/genesis.block
+  configtxgen -profile UpstacOrdererGenesis -channelID system-channel -outputBlock ./system-genesis-block/genesis.block
   res=$?
   { set +x; } 2>/dev/null
   if [ $res -ne 0 ]; then
@@ -342,8 +342,9 @@ function networkDown() {
     # remove orderer block and other channel configuration transactions and certs
     docker run --rm -v $(pwd):/data busybox sh -c 'cd /data && rm -rf system-genesis-block/*.block organizations/peerOrganizations organizations/ordererOrganizations'
     ## remove fabric ca artifacts
-    docker run --rm -v $(pwd):/data busybox sh -c 'cd /data && rm -rf organizations/fabric-ca/hospitalAhospitalA/msp organizations/fabric-ca/hospitalAhospitalA/tls-cert.pem organizations/fabric-ca/hospitalAhospitalA/ca-cert.pem organizations/fabric-ca/hospitalAhospitalA/IssuerPublicKey organizations/fabric-ca/hospitalAhospitalA/IssuerRevocationPublicKey organizations/fabric-ca/hospitalAhospitalA/fabric-ca-server.db'
+    docker run --rm -v $(pwd):/data busybox sh -c 'cd /data && rm -rf organizations/fabric-ca/hospitalA/msp organizations/fabric-ca/hospitalA/tls-cert.pem organizations/fabric-ca/hospitalA/ca-cert.pem organizations/fabric-ca/hospitalA/IssuerPublicKey organizations/fabric-ca/hospitalA/IssuerRevocationPublicKey organizations/fabric-ca/hospitalA/fabric-ca-server.db'
     docker run --rm -v $(pwd):/data busybox sh -c 'cd /data && rm -rf organizations/fabric-ca/hospitalB/msp organizations/fabric-ca/hospitalB/tls-cert.pem organizations/fabric-ca/hospitalB/ca-cert.pem organizations/fabric-ca/hospitalB/IssuerPublicKey organizations/fabric-ca/hospitalB/IssuerRevocationPublicKey organizations/fabric-ca/hospitalB/fabric-ca-server.db'
+    docker run --rm -v $(pwd):/data busybox sh -c 'cd /data && rm -rf organizations/fabric-ca/government/msp organizations/fabric-ca/government/tls-cert.pem organizations/fabric-ca/government/ca-cert.pem organizations/fabric-ca/government/IssuerPublicKey organizations/fabric-ca/government/IssuerRevocationPublicKey organizations/fabric-ca/government/fabric-ca-server.db'
     docker run --rm -v $(pwd):/data busybox sh -c 'cd /data && rm -rf organizations/fabric-ca/ordererOrg/msp organizations/fabric-ca/ordererOrg/tls-cert.pem organizations/fabric-ca/ordererOrg/ca-cert.pem organizations/fabric-ca/ordererOrg/IssuerPublicKey organizations/fabric-ca/ordererOrg/IssuerRevocationPublicKey organizations/fabric-ca/ordererOrg/fabric-ca-server.db'
     docker run --rm -v $(pwd):/data busybox sh -c 'cd /data && rm -rf addOrg3/fabric-ca/org3/msp addOrg3/fabric-ca/org3/tls-cert.pem addOrg3/fabric-ca/org3/ca-cert.pem addOrg3/fabric-ca/org3/IssuerPublicKey addOrg3/fabric-ca/org3/IssuerRevocationPublicKey addOrg3/fabric-ca/org3/fabric-ca-server.db'
     # remove channel and script artifacts
@@ -374,7 +375,7 @@ CC_COLL_CONFIG="NA"
 # chaincode init function defaults to "NA"
 CC_INIT_FCN="NA"
 # use this as the default docker-compose yaml definition
-COMPOSE_FILE_BASE=docker/docker-compose-test-net.yaml
+COMPOSE_FILE_BASE=docker/docker-compose-upstac.yaml
 # docker-compose.yaml file if you are using couchdb
 COMPOSE_FILE_COUCH=docker/docker-compose-couch.yaml
 # certificate authorities compose file

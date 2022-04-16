@@ -162,7 +162,7 @@ queryInstalled() {
   set +x
   cat log.txt
   PACKAGE_ID=`sed -n '/Package/{s/^Package ID: //; s/, Label:.*$//; p;}' log.txt`
-  verifyResult $res "Query installed on peer${PEER}.org${ORG} has failed"
+  verifyResult $res "Query installed on peer${PEER}.${ORG} has failed"
   echo PackageID For Chaincode Definition is ${PACKAGE_ID}
   echo "===================== Chaincode Package installed successfully on peer${PEER}.${ORG} ===================== "
   echo

@@ -22,7 +22,7 @@ class UserChainCode extends Contract {
 
 	// To validate if one hospital is not updating other hospital Records
 	validateUpdater(ctx, initiator){
-		const initiatorID = ctx.clientIdentity.getX509Certificate();		
+		const initiatorID = ctx.clientIdentity.getX509Certificate();
 		if(initiatorID.issuer.organizationName.trim() !== initiator){
 			throw new Error('Not authorized to initiate the transaction: ' + initiatorID.issuer.organizationName + ' not authorised to initiate this transaction');
 		}
@@ -54,7 +54,7 @@ class UserChainCode extends Contract {
 		let allUserRequestPayload
 		
 		// Payload
-		newRequestObject = {			
+		newRequestObject = {
 			role: role,
 			firstName: firstName,
 			lastName: lastName,
@@ -82,10 +82,10 @@ class UserChainCode extends Contract {
 		
 		// First User
 		if (!allUsersData || allUsersData.toString().length <= 0) {
-			allUserRequestPayload = {				
+			allUserRequestPayload = {
 				userIds : [dataKey]
 			}
-		}else{ // After First User
+		} else { // After First User
 			allUserRequestPayload = JSON.parse(allUsersData.toString())
 			allUserRequestPayload.userIds.push(dataKey)
 		}
@@ -106,7 +106,7 @@ class UserChainCode extends Contract {
 	/**
 	 * Get User Details
 	 * @param ctx - The transaction Context object
-	 * @param phone - User Phone Number 
+	 * @param phone - User Phone Number
 	 */
 	async getUserDetails(ctx, phone) {
 
@@ -114,7 +114,7 @@ class UserChainCode extends Contract {
 		let userData
 		let dataKey = keys.userData(phone)
 
-		// Get User Data		
+		// Get User Data
 		userData = await ctx.stub.getState(dataKey);
 
 		// Check if data exists
@@ -133,7 +133,7 @@ class UserChainCode extends Contract {
 	/**
 	 * Update User Details
 	 * @param ctx - The transaction Context object
-	 * @param phone - User Phone Number 
+	 * @param phone - User Phone Number
 	 * @param newDetailsPayload - New Details payload that needs to be updated. Example -> {address:abc}
 	 */
 	async updateUserDetails(ctx, phone, newDetailsPayload) {
@@ -143,7 +143,7 @@ class UserChainCode extends Contract {
 		let dataBuffer
 		let dataKey = keys.userData(phone)
 
-		// Get User Data		
+		// Get User Data
 		userData = await ctx.stub.getState(dataKey);
 
 		// Check if data exists
@@ -204,17 +204,17 @@ class UserChainCode extends Contract {
 		let dataBufferAllTestData
 		
 		// Payload
-		newTestPayload = {			
+		newTestPayload = {
 			testId: testId,
 			phone: phone,
-			description: description,			
+			description: description,
 			status: "INITIATED",
 			createdAt: new Date(),
 			updatedAt: new Date(),
 			createdBy : ctx.clientIdentity.getX509Certificate().issuer.organizationName.trim()
 		};
 
-		// Get Patient Data		
+		// Get Patient Data
 		patientData = await ctx.stub.getState(userDataKey);
 
 		// Check if phone Number is registered to Patient
@@ -233,7 +233,7 @@ class UserChainCode extends Contract {
 		
 		// First User
 		if (!allTestData || allTestData.toString().length <= 0) {
-			allTestsRequestPayload = {				
+			allTestsRequestPayload = {
 				testIds : [testDataKey]
 			}
 		}else{ // After First User
@@ -283,7 +283,7 @@ class UserChainCode extends Contract {
 		let dataBuffer
 		let testDataKey = keys.testData(testId)
 
-		// Get User Data		
+		// Get User Data
 		testData = await ctx.stub.getState(testDataKey);
 
 		// Check if data exists
@@ -337,7 +337,7 @@ class UserChainCode extends Contract {
 		let testData
 		let testDataKey = keys.testData(testId)
 
-		// Get User Data		
+		// Get User Data
 		testData = await ctx.stub.getState(testDataKey);
 
 		// Check if data exists
@@ -366,7 +366,7 @@ class UserChainCode extends Contract {
 		let testMappingData
 		let patientTestMappingKey = keys.testMapping(phone)
 
-		// Get User Data		
+		// Get User Data
 		testMappingData = await ctx.stub.getState(patientTestMappingKey);
 
 		// Check if data exists
@@ -383,7 +383,7 @@ class UserChainCode extends Contract {
 			// Get Test Data
 			testData = await ctx.stub.getState(testMappingData.testIds[index]);
 			testData = JSON.parse(testData.toString());
-			response.push(testData)			
+			response.push(testData)
 		}
 
 		// Response
@@ -402,7 +402,7 @@ class UserChainCode extends Contract {
 		let response = []
 		let key = keys.allUsersData()
 
-		// Get All Request Data		
+		// Get All Request Data
 		data = await ctx.stub.getState(key);
 
 		// Check if data exists
@@ -416,7 +416,7 @@ class UserChainCode extends Contract {
 		for (index = 0; index < data.userIds.length; index++) {
 			let tmpData = await ctx.stub.getState(data.userIds[index]);
 			tmpData = JSON.parse(tmpData.toString());
-			response.push(tmpData)			
+			response.push(tmpData)
 		}
 
 		// Response
@@ -435,7 +435,7 @@ class UserChainCode extends Contract {
 		let response = []
 		let key = keys.allTestsData()
 
-		// Get All Request Data		
+		// Get All Request Data
 		data = await ctx.stub.getState(key);
 
 		// Check if data exists
@@ -449,7 +449,7 @@ class UserChainCode extends Contract {
 		for (index = 0; index < data.testIds.length; index++) {
 			let tmpData = await ctx.stub.getState(data.testIds[index]);
 			tmpData = JSON.parse(tmpData.toString());
-			response.push(tmpData)			
+			response.push(tmpData)
 		}
 
 		// Response
