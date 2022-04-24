@@ -14,7 +14,7 @@ async function main(org) {
     try {
 
         // Create a new file system based wallet for managing identities.
-        let wallet = new FileSystemWallet(getIdentityPath(org));        
+        let wallet = new FileSystemWallet(getIdentityPath(org));
 
         // Check to see if we've already enrolled the user.
         let userExists = await wallet.exists("admin");
@@ -27,7 +27,7 @@ async function main(org) {
 
         // Create a new CA client for interacting with the CA.
         let caInfo = connectionProfile.certificateAuthorities['ca.'+ org + '.upstac.com'];
-        let caTLSCACerts = fs.readFileSync(caInfo.tlsCACerts.path).toString();        
+        let caTLSCACerts = caInfo.tlsCACerts.pem[0].toString();
         let ca = new FabricCAServices(caInfo.url, { trustedRoots: caTLSCACerts, verify: false }, caInfo.caName);
 
         // Enroll the admin user, and import the new identity into the wallet.

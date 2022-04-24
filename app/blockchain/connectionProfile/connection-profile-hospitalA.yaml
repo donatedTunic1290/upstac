@@ -36,7 +36,7 @@ channels:
         endorsingPeer: false
         chaincodeQuery: false
         ledgerQuery: true
-        eventSource: false 
+        eventSource: false
   insurance-hospitala:
     orderers:
       - orderer.upstac.com
@@ -50,8 +50,9 @@ channels:
         endorsingPeer: false
         chaincodeQuery: false
         ledgerQuery: true
-        eventSource: false           
-      
+        eventSource: false
+
+
 organizations:
   hospitalA:
     mspid: hospitalAMSP
@@ -61,7 +62,8 @@ organizations:
     certificateAuthorities:
       - ca.hospitalA.upstac.com
 
-  
+
+
 orderers:
   orderer.upstac.com:
     url: grpcs://localhost:7050
@@ -85,8 +87,9 @@ peers:
       request-timeout: 120001
     tlsCACerts:
       path: ../network/crypto-config/peerOrganizations/hospitalA.upstac.com/peers/peer1.hospitalA.upstac.com/msp/tlscacerts/tlsca.hospitalA.upstac.com-cert.pem
-  
-  
+
+
+
 certificateAuthorities:
   ca.hospitalA.upstac.com:
     url: https://localhost:7054
@@ -98,4 +101,3 @@ certificateAuthorities:
       - enrollId: admin
         enrollSecret: adminpw
     caName: ca.hospitalA.upstac.com
-  

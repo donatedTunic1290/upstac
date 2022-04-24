@@ -37,7 +37,7 @@ async function main(org, fabricUserName) {
         let connectionOptions = {
             wallet: wallet,
             identity: "admin",
-            discovery: { enabled: false, asLocalhost: true }
+            discovery: { enabled: true, asLocalhost: false }
         };
         
         // Connect to gateway using specified parameters
@@ -49,7 +49,7 @@ async function main(org, fabricUserName) {
         let adminIdentity = gateway.getCurrentIdentity();
 
         // Register the user, enroll the user, and import the new identity into the wallet.
-        let secret = await ca.register({ affiliation: 'hospitalA.department1', enrollmentID: fabricUserName, role:"client", attrs:[{name:"hf.Revoker", value:"true"}, {name:"hf.Registrar.Roles",  value:"client"}] }, adminIdentity);
+        let secret = await ca.register({ enrollmentID: fabricUserName, role:"client", attrs:[{name:"hf.Revoker", value:"true"}, {name:"hf.Registrar.Roles",  value:"client"}] }, adminIdentity);
         let enrollment = await ca.enroll({ enrollmentID: fabricUserName, enrollmentSecret: secret });
         let userIdentity = X509WalletMixin.createIdentity(org + 'MSP', enrollment.certificate, enrollment.key.toBytes());
         await wallet.import(fabricUserName, userIdentity);
